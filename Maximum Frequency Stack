@@ -1,0 +1,22 @@
+class FreqStack {
+public:
+unordered_map<int,int>m;
+priority_queue<pair<int,pair<int,int>>>pq;
+int i=0;
+   FreqStack() {
+        
+    }
+    
+    void push(int val) {
+        pq.push(make_pair(++m[val],make_pair(++i,val)));
+    }
+    
+    int pop() {
+        auto x=pq.top();
+        pq.pop();
+        int ans= x.second.second;
+        m[ans]--;
+        return ans;
+
+    }
+};

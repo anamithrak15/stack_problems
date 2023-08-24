@@ -1,0 +1,44 @@
+class Solution {
+public:
+    bool valid(string s){
+        stack<char>st;
+       for(int i=0;i<s.size();i++){
+           if(s[i]=='(' || st.empty()){
+               st.push(s[i]);
+           }
+           else {
+               if(s[i]==')' && st.top()=='('){
+                   st.pop();
+               }
+               else{
+                   st.push(s[i]);
+               }
+           }
+       }
+      return st.empty();
+    }
+
+    void f(vector<string>&ans, string s, int p){
+        if(p==0){
+            if(valid(s)){
+                ans.push_back(s);
+            }
+            return;
+        }
+        s.push_back('(');
+        f(ans,s,p-1);
+        s.pop_back();
+        s.push_back(')');
+        f(ans,s,p-1);
+        s.pop_back();
+        return;
+    }
+
+    vector<string> generateParenthesis(int n)
+    {
+        vector<string>v;
+        string p;
+        f(v,p,2*n);
+        return v;  
+    }
+};

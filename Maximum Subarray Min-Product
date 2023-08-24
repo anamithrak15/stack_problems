@@ -1,0 +1,75 @@
+class Solution {
+public:
+vector<int> f(vector<int>&nums){
+      int n=nums.size();
+      stack<int>s;
+      vector<int>v(n,-1);
+
+      for(int i=n-1;i>=0;i--){
+
+          while(!s.empty() && nums[s.top()]>=nums[i]){
+              s.pop();
+            //   v[i]=s.top();
+          }
+          if(!s.empty())
+          {
+              v[i]=s.top()-i;
+          }
+          s.push(i);
+
+      }
+      for(int i=0;i<n;i++)
+      {
+          if(v[i]==-1)
+          {
+              v[i]=n-i;
+          }
+      }
+      for(int i=0;i<n;i++){
+          cout<<v[i]<<" ";
+      }
+      return v;    
+}
+
+
+vector<int>preSum(vector<int>&nums){
+    int n=nums.size();
+    vector<int>a(n);
+    a[0]=nums[0];
+    for(int i=1;i<n;i++){
+        a[i]=a[i-1]+nums[i];
+        cout<<a[i]<<" ";
+    }
+    return a;
+}
+
+
+    int maxSumMinProduct(vector<int>& nums) {
+        int n=nums.size();
+        vector<int>r(n),l(n);
+        vector<int>pS(n);
+
+        r=f(nums);
+        reverse(nums.begin(),nums.end());
+        l=f(nums);
+        reverse(nums.begin(),nums.end());
+        reverse(l.begin(),l.end());
+        pS=preSum(nums);
+        int res=0;
+        vector<int>ans;
+
+        for(int i=0;i<n;i++){
+            int rInd=i+(r[i]-1);
+            int lInd=i-(l[i]-1);
+
+            res=(pS[rInd]-pS[lInd]+nums[i])*nums[i];
+            ans.push_back(res);
+        }
+
+        int kl=INT_MIN;
+        for(int i=0;i<n;i++){
+            kl=max(kl,ans[i]);
+        }
+        return kl;
+    }
+};
